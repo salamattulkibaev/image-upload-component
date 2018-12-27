@@ -10,7 +10,8 @@ function dd($var){
 }
 
 if ($_POST['submit'] && $_FILES) {
-	$obj = new ImageUpload($_FILES['fileUpload'], 'images/');
+	$fileData = $_FILES['fileUpload'];
+	$obj = new ImageUpload('images/', $fileData['tmp_name'], $fileData['size'], $fileData['name']);
 	if ($obj->uploadImage())
 		header('Location: /index.php');
 	else

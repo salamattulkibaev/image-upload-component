@@ -2,20 +2,20 @@
 
 class ImageUpload {
 
-	protected $filename ;
-	protected $file_type ;
-	protected $fileDir ;
-	protected $tmp_name;
-	protected $file_size;
+	private $file_name ;
+	private $file_type ;
+	private $fileDir ;
+	private $tmp_name;
+	private $file_size;
 
 	protected $errors;
 
-	function __construct($fileData, $fileDir) {
-		$this->fileDir = $fileDir;
-		$this->tmp_name = $fileData['tmp_name'];
-		$this->file_size = $fileData['size'];
-		$this->filename = $this->fileDir . $fileData['name'];
-		$this->file_type = strtolower(pathinfo($this->filename, PATHINFO_EXTENSION));
+	function __construct($file_dir, $tmp_name, $file_size, $file_name) {
+		$this->file_dir = $file_dir;
+		$this->tmp_name = $tmp_name;
+		$this->file_size = $file_size;
+		$this->file_name = $this->file_dir . $file_name;
+		$this->file_type = strtolower(pathinfo($this->file_name, PATHINFO_EXTENSION));
 	}
 
 	public function isActual(){
@@ -23,7 +23,7 @@ class ImageUpload {
 	}
 
 	public function exists(){
-		return file_exists($this->filename);
+		return file_exists($this->file_name);
 	}
 
 	public function checkSize(){
@@ -35,7 +35,7 @@ class ImageUpload {
 	}
 
 	public function moveUploadedImage(){
-		return move_uploaded_file($this->tmp_name, $this->filename);
+		return move_uploaded_file($this->tmp_name, $this->file_name);
 	}
 
 	public function validateImage() {
